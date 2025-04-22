@@ -39,21 +39,54 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>TikTok Listener</h1>
+    <div style={{ padding: 40, fontFamily: 'sans-serif' }}>
+      <h1 style={{ fontSize: 28, marginBottom: 20 }}>TikTok Listener</h1>
+
+      <label htmlFor="usernameInput" style={{ display: 'block', marginBottom: 8 }}>
+        TikTok Benutzername (ohne @)
+      </label>
       <input
-        placeholder="TikTok @username"
+        id="usernameInput"
+        placeholder="z. B. danielsanderbeste"
         onChange={(e) => setUsername(e.target.value)}
-        style={{ padding: 8, fontSize: 16 }}
+        style={{
+          padding: 10,
+          fontSize: 16,
+          width: 300,
+          border: '1px solid #ccc',
+          borderRadius: 4,
+          marginBottom: 10,
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') handleCheck();
+        }}
       />
-      <button onClick={handleCheck} style={{ marginLeft: 10, padding: '8px 16px' }}>
-        {loading ? 'Prüfe...' : 'Prüfen'}
+
+      <br />
+
+      <button
+        onClick={handleCheck}
+        disabled={loading}
+        style={{
+          padding: '10px 20px',
+          backgroundColor: loading ? '#ccc' : '#0070f3',
+          color: 'white',
+          fontSize: 16,
+          border: 'none',
+          borderRadius: 4,
+          cursor: loading ? 'not-allowed' : 'pointer',
+          transition: 'background-color 0.3s',
+          outline: 'none',
+        }}
+      >
+        {loading ? 'Lade...' : 'Prüfen'}
       </button>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: 'red', marginTop: 20 }}>{error}</p>}
 
       {result && result.nickname && (
-        <div style={{ marginTop: 20 }}>
+        <div style={{ marginTop: 30 }}>
+          <h3>Ergebnis</h3>
           <p><strong>Nickname:</strong> {result.nickname}</p>
           <p><strong>User ID:</strong> {result.user_id}</p>
           <p><strong>Live:</strong> {result.live ? 'Ja' : 'Nein'}</p>
